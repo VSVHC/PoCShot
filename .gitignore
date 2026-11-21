@@ -1,0 +1,18 @@
+# screenshots and run output (may contain client data)
+evidence/
+Failed_URL.txt
+SHA256SUMS.txt
+
+# target lists, scope and credentials (client data - never commit)
+urls.txt
+hosts.txt
+scope.txt
+steps.txt
+cookies.json
+*.gnmap
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
