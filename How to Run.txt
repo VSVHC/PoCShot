@@ -1,0 +1,42 @@
+SETUP (one time)
+pip install playwright pillow mss
+Google Chrome must be installed.
+
+LIST FILE (urls.txt)
+One target per line. Allowed: full URL, bare domain, host:port, httpx / subfinder output.
+
+OUTPUT
+evidence/<domain>/<domain>_<page>.png
+Failed targets: evidence/Failed_URL.txt
+
+MORE COMMANDS
+Full scrolling page (frame mode only):
+python shot.py -u example.com --mode frame --full-page
+
+Slow page, wait longer:
+python shot.py -u example.com --delay 5
+python shot.py -u example.com --wait-selector "#app"
+
+Cookie banner in the way:
+python shot.py -u example.com --dismiss-banners
+
+Through Burp:
+python shot.py -u example.com --proxy http://127.0.0.1:8080
+
+Logged-in page:
+python shot.py -u example.com -H "Authorization: Bearer TOKEN" --cookie "sid=abc"
+python shot.py -u example.com --basic-auth user:pass
+
+Only allow in-scope targets (scope.txt: one host, *.domain, IP or CIDR per line):
+python shot.py -l urls.txt --mode frame --scope scope.txt
+
+Pipe from httpx:
+httpx -l hosts.txt | python shot.py -l - --mode frame
+
+NOTES
+- Real mode (no --mode): one at a time. Do not use the PC until it finishes.
+- Frame mode: runs in background. -t sets parallel count (default 10, use 5 to 6 for a single site).
+- Frame mode draws the address bar. Real mode shows the real one.
+- Re-running the same URL saves name_1.png, name_2.png. Old files are not overwritten.
+- Failed list is appended on each run. Delete Failed_URL.txt for a fresh list.
+- Self-signed or invalid certs are handled automatically.
